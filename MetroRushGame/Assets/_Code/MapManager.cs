@@ -9,6 +9,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform _PoolingPoint;
     [SerializeField] private GameObject _TunelPiece;
     [SerializeField] private GameObject _StationPiece;
+    [SerializeField] private MetroLineScriptable _metroLine;
 
     [Header("Settings")]
     [SerializeField] private float _PoolingOffset;
@@ -47,12 +48,23 @@ public class MapManager : MonoBehaviour
     private void PooligInitilization()
     {
         _MapPieces.Clear();
-        int i = 0;
-        do
+
+        foreach (var station in _metroLine.Stations)
         {
-            _MapPieces.Add(GameObject.Instantiate(_TunelPiece, _SpawnPoint));
-            _MapPieces.Add(GameObject.Instantiate(_StationPiece, _SpawnPoint));
-            i++;
-        } while (i < 10);    
+            int i = 0;
+            do
+            {
+                _MapPieces.Add(GameObject.Instantiate(_TunelPiece, _SpawnPoint));
+                i++;
+            } while (i < station.StationDistance);
+            _MapPieces.Add(GameObject.Instantiate(_StationPiece,_SpawnPoint));
+        }
+        //int i = 0;
+        //do
+        //{
+        //    _MapPieces.Add(GameObject.Instantiate(_TunelPiece, _SpawnPoint));
+        //    _MapPieces.Add(GameObject.Instantiate(_StationPiece, _SpawnPoint));
+        //    i++;
+        //} while (i < 10);    
     }
 }

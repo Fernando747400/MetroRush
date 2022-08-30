@@ -538,6 +538,7 @@ MonoBehaviour:
     type: 3}
   _StationPiece: {fileID: 3828043674925316108, guid: 3e5dbc2e444df0247852ef315c6577c8,
     type: 3}
+  _metroLine: {fileID: 11400000, guid: 811d87ebdf72357419c53168ffb082ef, type: 2}
   _PoolingOffset: 1
 --- !u!1 &796568967
 GameObject:
@@ -676,7 +677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970727759}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 19.5}
+  m_LocalPosition: {x: 0, y: 0, z: 72.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
