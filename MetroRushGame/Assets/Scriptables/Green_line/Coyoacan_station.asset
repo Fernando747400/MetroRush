@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df6bc27284ed014489f574dabb68b7f0, type: 3}
-  m_Name: Universidad_station
+  m_Name: Coyoacan_station
   m_EditorClassIdentifier: 
-  StationName: Universidad
-  StationDistance: 3
+  StationName: "Coyoac\xE1n"
+  StationDistance: 2
