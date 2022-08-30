@@ -58,13 +58,6 @@ public class MapManager : MonoBehaviour
                 i++;
             } while (i < station.StationDistance);
             _MapPieces.Add(GameObject.Instantiate(_StationPiece,_SpawnPoint));
-        }
-        //int i = 0;
-        //do
-        //{
-        //    _MapPieces.Add(GameObject.Instantiate(_TunelPiece, _SpawnPoint));
-        //    _MapPieces.Add(GameObject.Instantiate(_StationPiece, _SpawnPoint));
-        //    i++;
-        //} while (i < 10);    
+        }  
     }
 }
