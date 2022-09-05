@@ -16,8 +16,9 @@ public class MovingPiece : MonoBehaviour
 
     void Update()
     {
-        _rb.velocity = new Vector3(0,0, -(speed * 1000 * Time.deltaTime));
-        CheckPosition();
+        this.transform.Translate(-this.transform.up * speed * 10 * Time.deltaTime, Space.Self);
+        //_rb.velocity = new Vector3(0,0, -(speed * 1000 * Time.deltaTime));
+        //CheckPosition();
     }
 
     private void CheckPosition()
