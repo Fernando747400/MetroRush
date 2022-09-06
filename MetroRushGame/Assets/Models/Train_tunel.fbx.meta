@@ -3,7 +3,17 @@ guid: ba4e91eefac4eea439144494b6d65c81
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gravel
+    second: {fileID: 2100000, guid: d06303e3c8e24584288d8002cd7de0ff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TunnelWalls
+    second: {fileID: 2100000, guid: 33f4fc980a3b07d4cb86fd6e003f1847, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

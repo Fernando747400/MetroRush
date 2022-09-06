@@ -39,6 +39,7 @@ public class MetroWagon : MonoBehaviour
     public void Break(float targetSpeed)
     {
         Speed -= (Breaking * Time.deltaTime)/mass;
+        if (Speed < 0) Speed = 0f;
         mapManager.ChangeSpeed(Speed); 
     }
 }
