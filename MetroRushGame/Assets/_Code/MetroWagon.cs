@@ -5,48 +5,40 @@ using UnityEngine;
 
 public class MetroWagon : MonoBehaviour
 {
-    public float Speed;
+    [Header("Dependenices")]
+    public MapManager mapManager;
+
+    [Header("Settings")]
     public float Acceleration;
     public float Breaking;
     public float MaxSpeed;
     public float mass;
-    public float TargetSpeed;
-    public bool changing = false;
 
-    public void ChangeSpeed(float currentSpeed, float targetSpeed)
+    [HideInInspector] public float Speed;
+    [HideInInspector] public float TargetSpeed;
+
+    public void ChangeSpeed(float targetSpeed)
     {
-        if(!changing)
+        if (Speed > targetSpeed)
         {
-            changing = true;
-            if (currentSpeed >= targetSpeed && currentSpeed <= MaxSpeed)
-            {
-                Break(targetSpeed);
-            }
-            else if (currentSpeed < targetSpeed)
-            {
-                Accelerate(targetSpeed);
-            }
-           Speed = Mathf.Clamp(Speed, 0, MaxSpeed);
+            Break(targetSpeed);
         }
-       
+        else if (Speed < targetSpeed)
+        {
+            Accelerate(targetSpeed);
+        }
+        Speed = Mathf.Clamp(Speed, 0, MaxSpeed);
     }
 
     public void Accelerate(float targetSpeed)
     {
-        while (Speed < targetSpeed)
-        {
-            Speed = Speed + (Acceleration * Time.deltaTime)/mass;
-        }
-        changing = false;
+        Speed += (Acceleration * Time.deltaTime)/mass;
+        mapManager.ChangeSpeed(Speed);
     }
 
     public void Break(float targetSpeed)
     {
-        
-        while (Speed > targetSpeed)
-        {
-            Speed = Speed - (Breaking * Time.deltaTime)/mass;
-        }
-        changing = false;
+        Speed -= (Breaking * Time.deltaTime)/mass;
+        mapManager.ChangeSpeed(Speed); 
     }
 }

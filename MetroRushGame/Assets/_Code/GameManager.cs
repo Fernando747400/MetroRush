@@ -41,16 +41,15 @@ public class GameManager : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
-        if (!_metroWagon.changing) ChangeSpeed(_slider.value);
+    {     
+        ChangeSpeed(_slider.value);
     }
 
     public void ChangeSpeed(float targetSpeed)
     {
         if(_gameState == GameState.Transit)
         {
-            _metroWagon.ChangeSpeed(_metroWagon.Speed, targetSpeed);
-            _mapManager.ChangeSpeed(_metroWagon.Speed);
+            _metroWagon.ChangeSpeed(targetSpeed);
         }      
     }
 }
