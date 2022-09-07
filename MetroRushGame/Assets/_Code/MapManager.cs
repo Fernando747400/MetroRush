@@ -15,6 +15,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private float _PoolingOffset;
 
     private List<GameObject> _MapPieces = new List<GameObject>();
+    private List<MovingPiece> _MovingPiece = new List<MovingPiece>();
 
 
     public void Awake()
@@ -24,13 +25,14 @@ public class MapManager : MonoBehaviour
     public void Start()
     {
         BuildTunnel();
+        BuildMovingPieceList();
     }
 
     public void ChangeSpeed(float Speed)
     {
-        foreach (var mapPiece in _MapPieces)
+        foreach (var movingPiece in _MovingPiece)
         {
-            mapPiece.gameObject.GetComponent<MovingPiece>().speed = Speed;
+            movingPiece.speed = Speed;
         }
     }
 
@@ -59,5 +61,13 @@ public class MapManager : MonoBehaviour
             } while (i < station.StationDistance);
             _MapPieces.Add(GameObject.Instantiate(_StationPiece,_SpawnPoint));
         }  
+    }
+
+    private void BuildMovingPieceList()
+    {
+        foreach (var mapPiece in _MapPieces)
+        {
+            _MovingPiece.Add(mapPiece.gameObject.GetComponent<MovingPiece>());
+        }
     }
 }
