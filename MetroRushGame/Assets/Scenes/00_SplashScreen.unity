@@ -739,7 +739,7 @@ MonoBehaviour:
   _PoolingPoint: {fileID: 970727760}
   _TunelPiece: {fileID: 2283275983924094656, guid: 996ea2226fc4b2d4fb17a97a8d819508,
     type: 3}
-  _StationPiece: {fileID: 8769545019367866643, guid: 592587a72142e8447bea2d2310c600af,
+  _StationPiece: {fileID: 3011002319392303451, guid: 592587a72142e8447bea2d2310c600af,
     type: 3}
   _metroLine: {fileID: 11400000, guid: 811d87ebdf72357419c53168ffb082ef, type: 2}
   _PoolingOffset: 50

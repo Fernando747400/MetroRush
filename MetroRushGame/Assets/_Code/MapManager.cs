@@ -66,6 +66,7 @@ public class MapManager : MonoBehaviour
                 _MapPieces.Add(tunnelPiece);
                 i++;
             } while (i < station.StationDistance);
+
             GameObject stationPiece = GameObject.Instantiate(_StationPiece, _SpawnPoint);
             stationPiece.AddComponent<MetroStation>();
             stationPiece.GetComponent<MetroStation>().StationData = station;

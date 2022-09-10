@@ -44,6 +44,6 @@ public class MetroWagon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Arrived at " + other.name);
+        Debug.Log("Arrived at " + other.GetComponentInParent<MetroStation>().gameObject.name);
     }
 }
