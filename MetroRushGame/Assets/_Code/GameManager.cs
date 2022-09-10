@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MetroWagon _metroWagon;
     [SerializeField] private MapManager _mapManager;
     [SerializeField] private Slider _slider;
-    
+    [SerializeField] private Slider _actualSpeed;
 
 
     public enum GameState
@@ -47,9 +47,10 @@ public class GameManager : MonoBehaviour
 
     public void ChangeSpeed(float targetSpeed)
     {
-        if(_gameState == GameState.Transit)
+        if (_gameState == GameState.Transit)
         {
             _metroWagon.ChangeSpeed(targetSpeed);
-        }      
+        }
+        _actualSpeed.value = _metroWagon.Speed;
     }
 }

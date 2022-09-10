@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.U2D;
 using UnityEngine;
 
 public class MetroWagon : MonoBehaviour
@@ -41,5 +40,10 @@ public class MetroWagon : MonoBehaviour
         Speed -= (Breaking * Time.deltaTime)/mass;
         if (Speed < 0) Speed = 0f;
         mapManager.ChangeSpeed(Speed); 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Arrived at " + other.name);
     }
 }

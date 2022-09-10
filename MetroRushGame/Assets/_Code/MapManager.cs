@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngineInternal;
 
 public class MapManager : MonoBehaviour
 {
@@ -15,7 +17,11 @@ public class MapManager : MonoBehaviour
     [SerializeField] private float _PoolingOffset;
 
     private List<GameObject> _MapPieces = new List<GameObject>();
+    private List<GameObject> _stationObject = new List<GameObject>();
     private List<MovingPiece> _MovingPiece = new List<MovingPiece>();
+
+    public MetroLineScriptable MetroLine { get => _metroLine; }
+    public List<GameObject> StationList { get => _stationObject; } 
 
 
     public void Awake()
@@ -56,10 +62,15 @@ public class MapManager : MonoBehaviour
             int i = 0;
             do
             {
-                _MapPieces.Add(GameObject.Instantiate(_TunelPiece, _SpawnPoint));
+                GameObject tunnelPiece = GameObject.Instantiate(_TunelPiece, _SpawnPoint);
+                _MapPieces.Add(tunnelPiece);
                 i++;
             } while (i < station.StationDistance);
-            _MapPieces.Add(GameObject.Instantiate(_StationPiece,_SpawnPoint));
+            GameObject stationPiece = GameObject.Instantiate(_StationPiece, _SpawnPoint);
+            stationPiece.AddComponent<MetroStation>();
+            stationPiece.GetComponent<MetroStation>().StationData = station;
+            _MapPieces.Add(stationPiece);
+            _stationObject.Add(stationPiece);
         }  
     }
 
