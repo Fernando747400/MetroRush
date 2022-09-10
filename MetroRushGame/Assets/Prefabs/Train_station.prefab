@@ -233,7 +233,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3011002319392303451}
-  m_Mesh: {fileID: -4220301237296933063, guid: c0a0ab1b7feae2b4f947ae8ff372c46d, type: 3}
+  m_Mesh: {fileID: -4220301237296933063, guid: 1b32ec7320f992f43a3e7c6c2042542d, type: 3}
 --- !u!23 &3659674803900434574
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -314,6 +314,7 @@ MonoBehaviour:
   - {fileID: 8995984788589191027}
   - {fileID: 5818843386670141349}
   - {fileID: 6244831965557406311}
+  PeopleWaiting: []
 --- !u!1 &4391840602859457015
 GameObject:
   m_ObjectHideFlags: 0
