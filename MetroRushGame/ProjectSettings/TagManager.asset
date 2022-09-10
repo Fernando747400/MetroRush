@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Station
   - BreakZone
+  - Passenger
   layers:
   - Default
   - TransparentFX

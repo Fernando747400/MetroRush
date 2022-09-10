@@ -12,9 +12,11 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject _TunelPiece;
     [SerializeField] private GameObject _StationPiece;
     [SerializeField] private MetroLineScriptable _metroLine;
+    [SerializeField] private PeopleManager _peopleManager;
 
     [Header("Settings")]
     [SerializeField] private float _PoolingOffset;
+    [SerializeField] private float _TimeMultiplier;
 
     private List<GameObject> _MapPieces = new List<GameObject>();
     private List<GameObject> _stationObject = new List<GameObject>();
@@ -23,14 +25,11 @@ public class MapManager : MonoBehaviour
     public MetroLineScriptable MetroLine { get => _metroLine; }
     public List<GameObject> StationList { get => _stationObject; } 
 
-
-    public void Awake()
-    {
-        PooligInitilization();
-    }
     public void Start()
     {
+        Initilization();
         BuildTunnel();
+        AddPeople();
         BuildMovingPieceList();
     }
 
@@ -53,7 +52,7 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    private void PooligInitilization()
+    private void Initilization()
     {
         _MapPieces.Clear();
 
@@ -68,11 +67,34 @@ public class MapManager : MonoBehaviour
             } while (i < station.StationDistance);
 
             GameObject stationPiece = GameObject.Instantiate(_StationPiece, _SpawnPoint);
-            stationPiece.AddComponent<MetroStation>();
             stationPiece.GetComponent<MetroStation>().StationData = station;
+            stationPiece.name = station.StationName;
             _MapPieces.Add(stationPiece);
             _stationObject.Add(stationPiece);
         }  
+    }
+
+    private void AddPeople()
+    {
+        foreach (var station in _stationObject)
+        {
+            if (station != _stationObject[_stationObject.Count-1])
+            {
+                MetroStation metroStation = station.GetComponent<MetroStation>();
+                GameObject desiredStation;
+               
+                foreach (var spawn in metroStation.SpawnPoints)
+                {
+                    do
+                    {
+                        desiredStation = _stationObject[Random.Range(_stationObject.IndexOf(station.gameObject), _stationObject.Count)];
+                    } while (desiredStation == station.gameObject);
+
+                    _peopleManager.InstantiatePeople(spawn, desiredStation, _stationObject.IndexOf(desiredStation) * _TimeMultiplier);
+                }
+                
+            }         
+        }
     }
 
     private void BuildMovingPieceList()
