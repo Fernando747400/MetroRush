@@ -44,6 +44,12 @@ public class MetroWagon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Arrived at " + other.GetComponentInParent<MetroStation>().gameObject.name);
+        if (other.CompareTag("Station"))
+        {
+            Debug.Log("Arrived at " + other.GetComponentInParent<MetroStation>().StationData.StationName);
+        } else if (other.CompareTag("BreakZone"))
+        {
+            Debug.Log("Arrived at break point with speed " + Speed);
+        }
     }
 }
