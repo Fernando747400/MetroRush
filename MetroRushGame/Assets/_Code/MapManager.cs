@@ -90,7 +90,7 @@ public class MapManager : MonoBehaviour
                         desiredStation = _stationObject[Random.Range(_stationObject.IndexOf(station.gameObject), _stationObject.Count)];
                     } while (desiredStation == station.gameObject);
 
-                    _peopleManager.InstantiatePeople(spawn, desiredStation, _stationObject.IndexOf(desiredStation) * _TimeMultiplier);
+                    _peopleManager.InstantiatePeople(spawn, desiredStation, _stationObject.IndexOf(desiredStation) * _TimeMultiplier, metroStation.PeopleWaiting);
                 }
                 
             }         

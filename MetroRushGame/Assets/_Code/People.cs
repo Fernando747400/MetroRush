@@ -27,8 +27,19 @@ public class People : MonoBehaviour
         }
     }
 
+    private void OnMouseUpAsButton()
+    {
+        if (GameManager.Instance._gameState == GameManager.GameState.Arrival)
+        {
+            this.gameObject.SetActive(false);
+        }
+        
+    }
+
     public void ChangeParent(GameObject newParent)
     {
         this.transform.parent = newParent.transform;
+        this.transform.position = newParent.transform.position;
+        this.transform.rotation = newParent.transform.rotation;
     }
 }

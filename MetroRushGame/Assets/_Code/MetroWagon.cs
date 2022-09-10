@@ -47,8 +47,16 @@ public class MetroWagon : MonoBehaviour
         if (other.CompareTag("Station"))
         {
             Debug.Log("Arrived at " + other.GetComponentInParent<MetroStation>().StationData.StationName);
+            Debug.Log("You must arrive at " + MaxSpeed * 0.1f + "And your current speed is " + Speed);
         } else if (other.CompareTag("BreakZone"))
         {
+            if (Speed <= MaxSpeed * 0.1)
+            {
+                TargetSpeed = 0f;
+                Speed = 0f;
+                mapManager.ChangeSpeed(Speed);
+                GameManager.Instance.ChangeState(GameManager.GameState.Arrival);
+            }
             Debug.Log("Arrived at break point with speed " + Speed);
         }
     }

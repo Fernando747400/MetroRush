@@ -195,6 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2660527366400705951}
   - component: {fileID: 7305474360792651209}
+  - component: {fileID: 73514392757993727}
   m_Layer: 0
   m_Name: PeoplePrefab
   m_TagString: Untagged
@@ -235,3 +236,16 @@ MonoBehaviour:
   DesiredStation: {fileID: 0}
   TimeLeft: 0
   TimeRunning: 0
+--- !u!65 &73514392757993727
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7891631988784943051}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.7308812, z: 1}
+  m_Center: {x: 0, y: 0.86544085, z: 0}

@@ -8,7 +8,7 @@ public class PeopleManager : MonoBehaviour
     [SerializeField] private GameObject _basePrefab;
     [SerializeField] private List<GameObject> _peoplePrefabs;
 
-    public void InstantiatePeople(GameObject spawnPlace, GameObject desiredStation, float timeToDestination)
+    public void InstantiatePeople(GameObject spawnPlace, GameObject desiredStation, float timeToDestination, List<GameObject> stationList)
     {
         GameObject baseObject = GameObject.Instantiate(_basePrefab, spawnPlace.transform.position, Quaternion.identity, spawnPlace.transform);
         GameObject people = GameObject.Instantiate(RandomPeople(),baseObject.transform.position, Quaternion.identity, baseObject.transform);
@@ -16,6 +16,7 @@ public class PeopleManager : MonoBehaviour
         baseObject.GetComponent<People>().DesiredStation = desiredStation;
         baseObject.GetComponent<People>().TimeLeft = timeToDestination;
         baseObject.GetComponent<People>().StationText.text = desiredStation.GetComponent<MetroStation>().StationData.StationName;
+        stationList.Add(baseObject);
     }
 
     private GameObject RandomPeople()
