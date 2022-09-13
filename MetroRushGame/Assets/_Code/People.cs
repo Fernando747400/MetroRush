@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class People : MonoBehaviour
 {
-    public float AnoyedLevel;
+    [Header("Dependencies")]
     public TextMeshPro StationText;
     public GameObject DesiredStation;
+
+    [Header("Settings")]
+    public float AnoyedLevel;
     public float TimeLeft;
     public bool TimeRunning;
 

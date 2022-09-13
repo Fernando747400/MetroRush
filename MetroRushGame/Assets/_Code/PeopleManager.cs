@@ -1,26 +1,40 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PeopleManager : MonoBehaviour
 {
+    [Header("Dependencies")]
     [SerializeField] private GameObject _basePrefab;
     [SerializeField] private List<GameObject> _peoplePrefabs;
 
-    public void InstantiatePeople(GameObject spawnPlace, GameObject desiredStation, float timeToDestination, List<GameObject> stationList)
+    private List<People> _peopleList;
+
+    public List<People> PeopleList { get => _peopleList; set => _peopleList = value; }
+
+    public void InstantiatePeople(GameObject spawnPlace, GameObject desiredStation, float timeToDestination, List<GameObject> waitingList)
     {
         GameObject baseObject = GameObject.Instantiate(_basePrefab, spawnPlace.transform.position, Quaternion.identity, spawnPlace.transform);
-        GameObject people = GameObject.Instantiate(RandomPeople(),baseObject.transform.position, Quaternion.identity, baseObject.transform);
-        people.transform.rotation = Quaternion.Euler(0,-90f,0);
-        baseObject.GetComponent<People>().DesiredStation = desiredStation;
-        baseObject.GetComponent<People>().TimeLeft = timeToDestination;
-        baseObject.GetComponent<People>().StationText.text = desiredStation.GetComponent<MetroStation>().StationData.StationName;
-        stationList.Add(baseObject);
+        GameObject peopleModel = GameObject.Instantiate(GetRandomPeople(),baseObject.transform.position, Quaternion.identity, baseObject.transform);
+        peopleModel.transform.rotation = Quaternion.Euler(0,-90f,0);
+
+        People basePeople = baseObject.GetComponent<People>();
+        basePeople.DesiredStation = desiredStation;
+        basePeople.TimeLeft = timeToDestination;
+        basePeople.StationText.text = desiredStation.GetComponent<MetroStation>().StationData.StationName;
+
+        AddPeopleToList(basePeople);
+        waitingList.Add(baseObject);
     }
 
-    private GameObject RandomPeople()
+    public void AddPeopleToList(People people)
+    {
+        _peopleList.Add(people);
+    }
+
+    private GameObject GetRandomPeople()
     {
         return _peoplePrefabs[Random.Range(0,_peoplePrefabs.Count)];
     }
+
+    
 }

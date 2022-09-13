@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MetroWagon : MonoBehaviour
 {
     [Header("Dependenices")]
-    public MapManager mapManager;
+    public MapManager MapManagerInstance;
 
     [Header("Settings")]
     public float Acceleration;
     public float Breaking;
     public float MaxSpeed;
-    public float mass;
+    public float Mass;
 
     [HideInInspector] public float Speed;
     [HideInInspector] public float TargetSpeed;
@@ -31,18 +29,18 @@ public class MetroWagon : MonoBehaviour
 
     public void Accelerate(float targetSpeed)
     {
-        Speed += (Acceleration * Time.deltaTime)/mass;
-        mapManager.ChangeSpeed(Speed);
+        Speed += (Acceleration * Time.deltaTime)/Mass;
+        MapManagerInstance.ChangeSpeed(Speed);
     }
 
     public void Break(float targetSpeed)
     {
-        Speed -= (Breaking * Time.deltaTime)/mass;
+        Speed -= (Breaking * Time.deltaTime)/Mass;
         if (Speed < 0) Speed = 0f;
-        mapManager.ChangeSpeed(Speed); 
+        MapManagerInstance.ChangeSpeed(Speed); 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //REDO with inside trigger
     {
         if (other.CompareTag("Station"))
         {
@@ -54,7 +52,7 @@ public class MetroWagon : MonoBehaviour
             {
                 TargetSpeed = 0f;
                 Speed = 0f;
-                mapManager.ChangeSpeed(Speed);
+                MapManagerInstance.ChangeSpeed(Speed);
                 GameManager.Instance.ChangeState(GameManager.GameState.Arrival);
             }
             Debug.Log("Arrived at break point with speed " + Speed);
