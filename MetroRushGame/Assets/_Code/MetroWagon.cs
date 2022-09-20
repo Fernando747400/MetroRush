@@ -40,13 +40,14 @@ public class MetroWagon : MonoBehaviour
         MapManagerInstance.ChangeSpeed(Speed); 
     }
 
-    private void OnTriggerEnter(Collider other) //REDO with inside trigger
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Station"))
         {
             Debug.Log("Arrived at " + other.GetComponentInParent<MetroStation>().StationData.StationName);
             Debug.Log("You must arrive at " + MaxSpeed * 0.1f + "And your current speed is " + Speed);
-        } else if (other.CompareTag("BreakZone"))
+        }
+        else if (other.CompareTag("BreakZone"))
         {
             if (Speed <= MaxSpeed * 0.1)
             {

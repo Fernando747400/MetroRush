@@ -9,6 +9,7 @@ public class MovingPiece : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("New pos value " + (-this.transform.up * Speed * _speedMultiplier * Time.deltaTime));
         this.transform.Translate(-this.transform.up * Speed * _speedMultiplier * Time.deltaTime, Space.Self);
     }
 }

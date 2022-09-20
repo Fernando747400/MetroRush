@@ -7,7 +7,7 @@ public class PeopleManager : MonoBehaviour
     [SerializeField] private GameObject _basePrefab;
     [SerializeField] private List<GameObject> _peoplePrefabs;
 
-    private List<People> _peopleList;
+    private List<People> _peopleList = new List<People>();
 
     public List<People> PeopleList { get => _peopleList; set => _peopleList = value; }
 
