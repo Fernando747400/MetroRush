@@ -15,4 +15,9 @@ public class MetroStation : MonoBehaviour
     {
         return SpawnPoints[Random.Range(0,SpawnPoints.Count)];
     }
+
+    public GameObject GetRandomDespawn()
+    {
+        return DeSpawnPoints[Random.Range(0, DeSpawnPoints.Count)];
+    }
 }

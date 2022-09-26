@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -13,10 +14,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MapManager _mapManager;
     [SerializeField] private Slider _slider;
     [SerializeField] private Slider _actualSpeed;
+    [SerializeField] private GameObject _metroDoorsEntrance;
+    [SerializeField] private GameObject _metroDoorsExit;
+    [SerializeField] private GameObject _metroInside;
 
     public UnityEvent Arrived;
     public UnityEvent Transit;
+    public UnityEvent OnStation;
 
+    private MetroStation _currentStation;
     public enum GameState
     {
         Start,
@@ -24,6 +30,10 @@ public class GameManager : MonoBehaviour
         Arrival,
         OnStation,
     }
+    public MetroStation CurrentStation { get => _currentStation; set => _currentStation = value; }
+    public GameObject MetroDoorsEntrance { get => _metroDoorsEntrance;}
+    public GameObject MetroDoorsExit { get => _metroDoorsExit; }
+    public GameObject MetroInside { get => _metroInside;}
 
     private void Awake()
     {
@@ -37,16 +47,13 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_gameState == GameState.Transit) ChangeSpeed(_slider.value);
-        else if (_gameState == GameState.Arrival) _slider.value = _metroWagon.Speed;
+        if (_gameState == GameState.Transit || _gameState == GameState.Arrival) ChangeSpeed(_slider.value);
+        else if (_gameState == GameState.OnStation) _slider.value = _metroWagon.Speed;
     }
 
     public void ChangeSpeed(float targetSpeed) //Move to proper script 
     {
-        if (_gameState == GameState.Transit)
-        {
-            _metroWagon.ChangeSpeed(targetSpeed);
-        }
+         _metroWagon.ChangeSpeed(targetSpeed);
         _actualSpeed.value = _metroWagon.Speed;
     }
 
@@ -72,6 +79,9 @@ public class GameManager : MonoBehaviour
 
             case GameState.Transit:
                 Transit?.Invoke();
+                break;
+            case GameState.OnStation:
+                OnStation?.Invoke();
                 break;
         }
     }

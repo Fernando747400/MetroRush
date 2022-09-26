@@ -33,6 +33,7 @@ public class MapManager : MonoBehaviour
     {
         foreach (var movingPiece in _movablePieceList)
         {
+            Debug.Log("Speed from MapManager " + Speed);
             movingPiece.Speed = Speed;
         }
     }
@@ -50,12 +51,19 @@ public class MapManager : MonoBehaviour
     private void Initilization()
     {
         if(_mapPiecesList.Any()) _mapPiecesList.Clear();
+        GameObject tunnelPiece;
+
+        for (int i = 0; i < 2; i++)
+        {
+             tunnelPiece = GameObject.Instantiate(_tunelPiece);
+            _mapPiecesList.Add(tunnelPiece);
+        }
 
         foreach (var station in _metroLine.Stations)
         {
             for (int i = 0; i < station.StationDistance; i++)
             {
-                GameObject tunnelPiece = GameObject.Instantiate(_tunelPiece);
+                 tunnelPiece = GameObject.Instantiate(_tunelPiece);
                 _mapPiecesList.Add(tunnelPiece);
             }
 
@@ -64,7 +72,13 @@ public class MapManager : MonoBehaviour
             stationPiece.name = station.StationName;
             _mapPiecesList.Add(stationPiece);
             _stationObjectList.Add(stationPiece);
-        }  
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            tunnelPiece = GameObject.Instantiate(_tunelPiece);
+            _mapPiecesList.Add(tunnelPiece);
+        }
     }
 
     private void AddPeople()
