@@ -5,6 +5,7 @@ public class MetroWagon : MonoBehaviour
 {
     [Header("Dependenices")]
     public MapManager MapManagerInstance;
+    public PeopleManager PeopleManagerInstance;
 
     [Header("Settings")]
     public float Acceleration;
@@ -62,6 +63,7 @@ public class MetroWagon : MonoBehaviour
                 Speed = 0f;
                 MapManagerInstance.ChangeSpeed(Speed);
                 GameManager.Instance.ChangeState(GameManager.GameState.OnStation);
+                RemovePassenger();
             }
             Debug.Log("Arrived at break point with speed " + Speed);
         }
@@ -82,12 +84,6 @@ public class MetroWagon : MonoBehaviour
 
     public void RemovePassenger()
     {
-        foreach (var passenger in _passengerList)
-        {
-            if(passenger.DesiredStation = GameManager.Instance.CurrentStation.gameObject)
-            {
-                _passengerList.Remove(passenger);
-            }
-        }
+        _passengerList = PeopleManagerInstance.RemovePassengers(_passengerList);
     }
 }

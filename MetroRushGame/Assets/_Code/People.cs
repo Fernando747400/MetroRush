@@ -48,6 +48,18 @@ public class People : MonoBehaviour
         iTween.MoveTo(this.gameObject, iTween.Hash("position", GameManager.Instance.MetroInside.transform.position, "time", 1f));
     }
 
+    public void ExitMetro(GameObject exitPosition)
+    {
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", GameManager.Instance.MetroDoorsExit.transform.position, "time", 1f, "oncomplete", "MoveToDespawn", "oncompleteparams", exitPosition));
+    }
+
+    private void MoveToDespawn(GameObject position)
+    {
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", position.transform.position, "time", 1.5f));
+        ChangeParent(position);
+
+    }
+
     public void ChangeParent(GameObject newParent)
     {
         this.transform.parent = newParent.transform;

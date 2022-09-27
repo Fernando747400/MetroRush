@@ -31,10 +31,22 @@ public class PeopleManager : MonoBehaviour
         _peopleList.Add(people);
     }
 
+    public List<People> RemovePassengers(List<People> peopleList)
+    {
+        foreach (var people in PeopleList)
+        {
+            if (people.DesiredStation == GameManager.Instance.CurrentStation.gameObject)
+            {
+                people.ExitMetro(GameManager.Instance.CurrentStation.GetRandomDespawn());
+                peopleList.Remove(people);
+            }
+        }
+
+        return peopleList;
+    }
+
     private GameObject GetRandomPeople()
     {
         return _peoplePrefabs[Random.Range(0,_peoplePrefabs.Count)];
-    }
-
-    
+    }  
 }
