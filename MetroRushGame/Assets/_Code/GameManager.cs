@@ -1,24 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector] public static GameManager Instance;
+    public static GameManager Instance;
+
+    public GameState _gameState;
 
     [Header("Dependencies")]
     [SerializeField] private MetroWagon _metroWagon;
     [SerializeField] private MapManager _mapManager;
     [SerializeField] private Slider _slider;
     [SerializeField] private Slider _actualSpeed;
+    [SerializeField] private GameObject _metroDoorsEntrance;
+    [SerializeField] private GameObject _metroDoorsExit;
+    [SerializeField] private GameObject _metroInside;
 
     public UnityEvent Arrived;
     public UnityEvent Transit;
+    public UnityEvent OnStation;
 
-
+    private MetroStation _currentStation;
     public enum GameState
     {
         Start,
@@ -26,8 +30,10 @@ public class GameManager : MonoBehaviour
         Arrival,
         OnStation,
     }
-
-     public GameState _gameState;
+    public MetroStation CurrentStation { get => _currentStation; set => _currentStation = value; }
+    public GameObject MetroDoorsEntrance { get => _metroDoorsEntrance;}
+    public GameObject MetroDoorsExit { get => _metroDoorsExit; }
+    public GameObject MetroInside { get => _metroInside;}
 
     private void Awake()
     {
@@ -39,19 +45,31 @@ public class GameManager : MonoBehaviour
         _gameState = GameState.Transit;
     }
 
+    private void FixedUpdate()
+    {
+        if (_gameState == GameState.Transit || _gameState == GameState.Arrival) ChangeSpeed(_slider.value);
+        else if (_gameState == GameState.OnStation) _slider.value = _metroWagon.Speed;
+    }
+
+    public void ChangeSpeed(float targetSpeed) //Move to proper script 
+    {
+         _metroWagon.ChangeSpeed(targetSpeed);
+        _actualSpeed.value = _metroWagon.Speed;
+    }
+
     public void ChangeState(GameState state)
     {
         _gameState = state;
-        InvokeChangeState();
+        InvokeGameState();
     }
 
     public void Continue()
     {
         _gameState = GameState.Transit;
-        InvokeChangeState();
+        InvokeGameState();
     }
 
-    public void InvokeChangeState()
+    public void InvokeGameState()
     {
         switch (_gameState)
         {
@@ -62,21 +80,9 @@ public class GameManager : MonoBehaviour
             case GameState.Transit:
                 Transit?.Invoke();
                 break;
+            case GameState.OnStation:
+                OnStation?.Invoke();
+                break;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (_gameState == GameState.Transit) ChangeSpeed(_slider.value);
-        else if (_gameState == GameState.Arrival) _slider.value = _metroWagon.Speed;
-    }
-
-    public void ChangeSpeed(float targetSpeed)
-    {
-        if (_gameState == GameState.Transit)
-        {
-            _metroWagon.ChangeSpeed(targetSpeed);
-        }
-        _actualSpeed.value = _metroWagon.Speed;
     }
 }

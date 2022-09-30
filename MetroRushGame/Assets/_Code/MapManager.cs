@@ -1,29 +1,25 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
-using UnityEngineInternal;
 
 public class MapManager : MonoBehaviour
 {
     [Header("Dependencies")]
-    [SerializeField] private Transform _SpawnPoint;
-    [SerializeField] private Transform _PoolingPoint;
-    [SerializeField] private GameObject _TunelPiece;
-    [SerializeField] private GameObject _StationPiece;
+    [SerializeField] private GameObject _tunelPiece;
+    [SerializeField] private GameObject _stationPiece;
     [SerializeField] private MetroLineScriptable _metroLine;
     [SerializeField] private PeopleManager _peopleManager;
 
     [Header("Settings")]
-    [SerializeField] private float _PoolingOffset;
-    [SerializeField] private float _TimeMultiplier;
+    [SerializeField] private float _mapOffset;
+    [SerializeField] private float _timeMultiplier;
 
-    private List<GameObject> _MapPieces = new List<GameObject>();
-    private List<GameObject> _stationObject = new List<GameObject>();
-    private List<MovingPiece> _MovingPiece = new List<MovingPiece>();
+    private List<GameObject> _mapPiecesList = new List<GameObject>();
+    private List<GameObject> _stationObjectList = new List<GameObject>();
+    private List<MovingPiece> _movablePieceList = new List<MovingPiece>();
 
     public MetroLineScriptable MetroLine { get => _metroLine; }
-    public List<GameObject> StationList { get => _stationObject; } 
+    public List<GameObject> StationList { get => _stationObjectList; } 
 
     public void Start()
     {
@@ -35,50 +31,61 @@ public class MapManager : MonoBehaviour
 
     public void ChangeSpeed(float Speed)
     {
-        foreach (var movingPiece in _MovingPiece)
+        foreach (var movingPiece in _movablePieceList)
         {
-            movingPiece.speed = Speed;
+            Debug.Log("Speed from MapManager " + Speed);
+            movingPiece.Speed = Speed;
         }
     }
 
     private void BuildTunnel()
     {
         Vector3 pos = Vector3.zero;
-        foreach (var MapPiece in _MapPieces)
+        foreach (var MapPiece in _mapPiecesList)
         {
             MapPiece.transform.position = pos;
-            MapPiece.gameObject.GetComponent<MovingPiece>().PoolPosition = _PoolingPoint;
-            pos.z = pos.z + _PoolingOffset;
+            pos.z = pos.z + _mapOffset;
         }
     }
 
     private void Initilization()
     {
-        _MapPieces.Clear();
+        if(_mapPiecesList.Any()) _mapPiecesList.Clear();
+        GameObject tunnelPiece;
+
+        for (int i = 0; i < 2; i++)
+        {
+             tunnelPiece = GameObject.Instantiate(_tunelPiece);
+            _mapPiecesList.Add(tunnelPiece);
+        }
 
         foreach (var station in _metroLine.Stations)
         {
-            int i = 0;
-            do
+            for (int i = 0; i < station.StationDistance; i++)
             {
-                GameObject tunnelPiece = GameObject.Instantiate(_TunelPiece, _SpawnPoint);
-                _MapPieces.Add(tunnelPiece);
-                i++;
-            } while (i < station.StationDistance);
+                 tunnelPiece = GameObject.Instantiate(_tunelPiece);
+                _mapPiecesList.Add(tunnelPiece);
+            }
 
-            GameObject stationPiece = GameObject.Instantiate(_StationPiece, _SpawnPoint);
+            GameObject stationPiece = GameObject.Instantiate(_stationPiece);
             stationPiece.GetComponent<MetroStation>().StationData = station;
             stationPiece.name = station.StationName;
-            _MapPieces.Add(stationPiece);
-            _stationObject.Add(stationPiece);
-        }  
+            _mapPiecesList.Add(stationPiece);
+            _stationObjectList.Add(stationPiece);
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            tunnelPiece = GameObject.Instantiate(_tunelPiece);
+            _mapPiecesList.Add(tunnelPiece);
+        }
     }
 
     private void AddPeople()
     {
-        foreach (var station in _stationObject)
+        foreach (var station in _stationObjectList)
         {
-            if (station != _stationObject[_stationObject.Count-1])
+            if (station != _stationObjectList[_stationObjectList.Count-1]) //Checks to see if not the last piece
             {
                 MetroStation metroStation = station.GetComponent<MetroStation>();
                 GameObject desiredStation;
@@ -87,10 +94,10 @@ public class MapManager : MonoBehaviour
                 {
                     do
                     {
-                        desiredStation = _stationObject[Random.Range(_stationObject.IndexOf(station.gameObject), _stationObject.Count)];
+                        desiredStation = _stationObjectList[Random.Range(_stationObjectList.IndexOf(station.gameObject), _stationObjectList.Count)]; //Select a station only from the current position forwards. AKA: can't get a lower station
                     } while (desiredStation == station.gameObject);
 
-                    _peopleManager.InstantiatePeople(spawn, desiredStation, _stationObject.IndexOf(desiredStation) * _TimeMultiplier, metroStation.PeopleWaiting);
+                    _peopleManager.InstantiatePeople(spawn, desiredStation, _stationObjectList.IndexOf(desiredStation) * _timeMultiplier, metroStation.PeopleWaiting);
                 }
                 
             }         
@@ -99,9 +106,9 @@ public class MapManager : MonoBehaviour
 
     private void BuildMovingPieceList()
     {
-        foreach (var mapPiece in _MapPieces)
+        foreach (var mapPiece in _mapPiecesList)
         {
-            _MovingPiece.Add(mapPiece.gameObject.GetComponent<MovingPiece>());
+            _movablePieceList.Add(mapPiece.gameObject.GetComponent<MovingPiece>());
         }
     }
 }
