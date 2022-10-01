@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.FilePathAttribute;
+
 
 public class People : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class People : MonoBehaviour
         AnoyedLevel = 0f;
         TimeLeft = 20f;
         TimeRunning = false;
+        RemoveColliders();
     }
 
     private void FixedUpdate()
@@ -40,6 +42,7 @@ public class People : MonoBehaviour
 
     public void EnterMetro()
     {
+        TurnOffText();
         iTween.MoveTo(this.gameObject, iTween.Hash("position", GameManager.Instance.MetroDoorsEntrance.transform.position, "time", 1f, "oncomplete", "MoveInside"));
     }
 
@@ -63,7 +66,21 @@ public class People : MonoBehaviour
     public void ChangeParent(GameObject newParent)
     {
         this.transform.parent = newParent.transform;
-        //this.transform.position = newParent.transform.position;
-        //this.transform.rotation = newParent.transform.rotation;
     }
+
+    private void RemoveColliders (){
+        List<Collider> colliders = new List<Collider>(this.gameObject.GetComponentsInChildren<Collider>());
+        colliders.Remove(colliders[0]);
+        
+        foreach (Collider collider in colliders)
+        {
+            Destroy(collider);
+        }
+    }
+
+    private void TurnOffText()
+    {
+        StationText.gameObject.SetActive(false);
+    }
+
 }

@@ -13,7 +13,7 @@ public class MetroWagon : MonoBehaviour
     public float MaxSpeed;
     public float Mass;
 
-    private List<People> _passengerList;
+    private List<People> _passengerList = new List<People>();
 
     [HideInInspector] public float Speed;
     [HideInInspector] public float TargetSpeed;
