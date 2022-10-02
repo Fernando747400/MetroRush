@@ -42,6 +42,7 @@ public class People : MonoBehaviour
     {
         if (GameManager.Instance._gameState == GameManager.GameState.OnStation)
         {
+            if (!MetroWagon.Instance.TryAddPassenger(this)) return;
             EnterMetro();
             ChangeParent(GameManager.Instance.MetroInside);
             TurnOffText();          
@@ -58,7 +59,6 @@ public class People : MonoBehaviour
     {
         iTween.MoveTo(this.gameObject, iTween.Hash("position", GameManager.Instance.MetroInside.transform.position, "time", 1f));
         TimeRunning = true;
-        MetroWagon.Instance.AddPassenger(this);
     }
 
     public void ExitMetro(GameObject exitPosition)

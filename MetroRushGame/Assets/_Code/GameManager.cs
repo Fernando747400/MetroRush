@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
         Transit,
         Arrival,
         OnStation,
+        GameOver
     }
     public MetroStation CurrentStation { get => _currentStation; set => _currentStation = value; }
     public GameObject MetroDoorsEntrance { get => _metroDoorsEntrance;}
@@ -83,6 +84,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.OnStation:
                 OnStation?.Invoke();
+                break;
+            case GameState.GameOver:
+                GameOver?.Invoke();
                 break;
         }
     }

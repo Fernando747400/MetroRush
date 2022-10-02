@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
+    public static MapManager Instance;
+
     [Header("Dependencies")]
     [SerializeField] private GameObject _tunelPiece;
     [SerializeField] private GameObject _stationPiece;
@@ -20,14 +22,17 @@ public class MapManager : MonoBehaviour
     private List<MovingPiece> _movablePieceList = new List<MovingPiece>();
 
     public MetroLineScriptable MetroLine { get => _metroLine; }
-    public List<GameObject> StationList { get => _stationObjectList; } 
+    public List<GameObject> StationList { get => _stationObjectList; }
+
+    private void Awake()
+    {
+        Instance = this;
+        Prepare();
+    }
 
     public void Start()
     {
-        Initilization();
-        BuildTunnel();
-        AddPeople();
-        BuildMovingPieceList();
+       
     }
 
     public void ChangeSpeed(float Speed)
@@ -109,5 +114,13 @@ public class MapManager : MonoBehaviour
         {
             _movablePieceList.Add(mapPiece.gameObject.GetComponent<MovingPiece>());
         }
+    }
+
+    private void Prepare()
+    {
+        Initilization();
+        BuildTunnel();
+        AddPeople();
+        BuildMovingPieceList();
     }
 }

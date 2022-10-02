@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,17 +15,28 @@ public class MetroWagon : MonoBehaviour
     public float Breaking;
     public float MaxSpeed;
     public float Mass;
-
-    private List<People> _passengerList = new List<People>();
+    
+    public int MaxCapacity;
+    [HideInInspector] public int CurrentCapacity = 0;
 
     [HideInInspector] public float Speed;
     [HideInInspector] public float TargetSpeed;
+
+    private List<People> _passengerList = new List<People>();
+
+    public event Action OnFullCapacity;
+    public event Action OnPassengerChanged;
 
     public List<People> PassengerList { get => _passengerList; set => _passengerList = value; }
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        Prepare();
     }
 
     public void ChangeSpeed(float targetSpeed)
@@ -56,8 +68,8 @@ public class MetroWagon : MonoBehaviour
         if (other.CompareTag("Station"))
         {
             Debug.Log("Arrived at " + other.GetComponentInParent<MetroStation>().StationData.StationName);
-            GameManager.Instance.ChangeState(GameManager.GameState.Arrival);
             GameManager.Instance.CurrentStation = other.GetComponentInParent<MetroStation>();
+            GameManager.Instance.ChangeState(GameManager.GameState.Arrival);
         }
     }
 
@@ -71,7 +83,7 @@ public class MetroWagon : MonoBehaviour
                 Speed = 0f;
                 MapManagerInstance.ChangeSpeed(Speed);
                 GameManager.Instance.ChangeState(GameManager.GameState.OnStation);
-                RemovePassenger();
+                RemovePassengers();
             }
         }
     }
@@ -83,14 +95,50 @@ public class MetroWagon : MonoBehaviour
             GameManager.Instance.ChangeState(GameManager.GameState.Transit);
         }
     }
-
-    public void AddPassenger(People passenger)
+    
+    public bool TryAddPassenger(People passenger)
     {
-        _passengerList.Add(passenger);
+        {
+            if (CurrentCapacity < MaxCapacity)
+            {
+                CurrentCapacity++;
+                AddPassenger(passenger);
+                return true;
+            }
+            else
+            {
+                OnFullCapacity?.Invoke();
+                return false;
+            }
+        }
     }
 
-    public void RemovePassenger()
+    private void AddPassenger(People passenger)
     {
+        _passengerList.Add(passenger);
+        InvokePassengerChanged();
+    }
+
+    public void RemovePassengers()
+    {
+        int passengerCount = _passengerList.Count;
         _passengerList = PeopleManagerInstance.RemovePassengers(_passengerList);
+        CurrentCapacity -= passengerCount - _passengerList.Count;
+        InvokePassengerChanged();
+    }
+
+    private void ExpandCapacity()
+    {      
+        MaxCapacity += 10;   
+    }
+
+    private void Prepare()
+    {
+        UIManager.Instance.ExpandCapacity.AddListener(ExpandCapacity);   
+    }
+
+    private void InvokePassengerChanged()
+    {
+        OnPassengerChanged?.Invoke();
     }
 }
