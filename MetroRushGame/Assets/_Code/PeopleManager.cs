@@ -33,15 +33,21 @@ public class PeopleManager : MonoBehaviour
 
     public List<People> RemovePassengers(List<People> peopleList)
     {
-        foreach (var people in PeopleList)
+        List<People> peopleToRemove = new List<People>();
+        foreach (var people in peopleList)
         {
-            if (people.DesiredStation == GameManager.Instance.CurrentStation.gameObject)
+            if (people.DesiredStation == GameManager.Instance.CurrentStation.gameObject || GameManager.Instance.CheckStationPassed(people.DesiredStation))
             {
-                people.ExitMetro(GameManager.Instance.CurrentStation.GetRandomDespawn());
-                peopleList.Remove(people);
+                people.ExitMetro(GameManager.Instance.CurrentStation.GetDespawn());
+                peopleToRemove.Add(people);
             }
         }
 
+        foreach (var people in peopleToRemove)
+        {
+            peopleList.Remove(people);
+        }
+        
         return peopleList;
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -33,7 +34,6 @@ public class MapManager : MonoBehaviour
     {
         foreach (var movingPiece in _movablePieceList)
         {
-            Debug.Log("Speed from MapManager " + Speed);
             movingPiece.Speed = Speed;
         }
     }
@@ -89,17 +89,16 @@ public class MapManager : MonoBehaviour
             {
                 MetroStation metroStation = station.GetComponent<MetroStation>();
                 GameObject desiredStation;
-               
-                foreach (var spawn in metroStation.SpawnPoints)
+
+                for (int i = 0; i < UnityEngine.Random.Range(1, metroStation.SpawnPoints.Count); i++)
                 {
                     do
                     {
-                        desiredStation = _stationObjectList[Random.Range(_stationObjectList.IndexOf(station.gameObject), _stationObjectList.Count)]; //Select a station only from the current position forwards. AKA: can't get a lower station
+                        desiredStation = _stationObjectList[UnityEngine.Random.Range(_stationObjectList.IndexOf(station.gameObject), _stationObjectList.Count)]; //Select a station only from the current position forwards. AKA: can't get a lower station
                     } while (desiredStation == station.gameObject);
 
-                    _peopleManager.InstantiatePeople(spawn, desiredStation, _stationObjectList.IndexOf(desiredStation) * _timeMultiplier, metroStation.PeopleWaiting);
-                }
-                
+                    _peopleManager.InstantiatePeople(metroStation.GetSpawn(), desiredStation, _stationObjectList.IndexOf(desiredStation) * _timeMultiplier, metroStation.PeopleWaiting);
+                }               
             }         
         }
     }

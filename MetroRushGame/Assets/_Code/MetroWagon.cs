@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class MetroWagon : MonoBehaviour
 {
+    public static MetroWagon Instance;
+
     [Header("Dependenices")]
     public MapManager MapManagerInstance;
     public PeopleManager PeopleManagerInstance;
@@ -20,9 +22,13 @@ public class MetroWagon : MonoBehaviour
 
     public List<People> PassengerList { get => _passengerList; set => _passengerList = value; }
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public void ChangeSpeed(float targetSpeed)
     {
-        Debug.Log("Target speed " + targetSpeed);
         if (Speed > targetSpeed)
         {
             Break(targetSpeed);
@@ -33,13 +39,11 @@ public class MetroWagon : MonoBehaviour
         }
         Speed = Mathf.Clamp(Speed, 0, MaxSpeed);
         MapManagerInstance.ChangeSpeed(Speed);
-        Debug.Log("Speed sent from Metro " + Speed);
     }
 
     public void Accelerate(float targetSpeed)
     {
         Speed = Speed + (Acceleration * Time.deltaTime)/Mass;
-        Debug.Log("Acelleration speed " + Speed);
     }
 
     public void Break(float targetSpeed)
@@ -47,7 +51,7 @@ public class MetroWagon : MonoBehaviour
         Speed = Speed - (Breaking * Time.deltaTime)/Mass;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Station"))
         {
@@ -55,7 +59,11 @@ public class MetroWagon : MonoBehaviour
             GameManager.Instance.ChangeState(GameManager.GameState.Arrival);
             GameManager.Instance.CurrentStation = other.GetComponentInParent<MetroStation>();
         }
-        else if (other.CompareTag("BreakZone") && GameManager.Instance._gameState == GameManager.GameState.Arrival)
+    }
+
+    private void OnTriggerStay(Collider other)
+    {     
+        if (other.CompareTag("BreakZone") && GameManager.Instance._gameState == GameManager.GameState.Arrival)
         {
             if (Speed <= MaxSpeed * 0.1)
             {
@@ -65,7 +73,6 @@ public class MetroWagon : MonoBehaviour
                 GameManager.Instance.ChangeState(GameManager.GameState.OnStation);
                 RemovePassenger();
             }
-            Debug.Log("Arrived at break point with speed " + Speed);
         }
     }
 

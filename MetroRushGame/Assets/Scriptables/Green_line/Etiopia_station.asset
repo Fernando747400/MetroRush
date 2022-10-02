@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df6bc27284ed014489f574dabb68b7f0, type: 3}
   m_Name: Etiopia_station
   m_EditorClassIdentifier: 
-  StationName: "Etiop\xEDa - Plaza de la Transparencia"
+  StationName: "Etiop\xEDa"
   StationDistance: 3

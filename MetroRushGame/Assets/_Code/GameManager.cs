@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent Arrived;
     public UnityEvent Transit;
     public UnityEvent OnStation;
+    public UnityEvent GameOver;
 
     private MetroStation _currentStation;
     public enum GameState
@@ -84,5 +85,11 @@ public class GameManager : MonoBehaviour
                 OnStation?.Invoke();
                 break;
         }
+    }
+
+    public bool CheckStationPassed(GameObject station)
+    {
+        if (_mapManager.StationList.IndexOf(station) < _mapManager.StationList.IndexOf(_currentStation.gameObject)) return true;
+        else return false;
     }
 }
