@@ -13,7 +13,7 @@ public class MetroStation : MonoBehaviour
 
     public MetroStationScriptable StationData { get => _stationData; set => _stationData = value; }
 
-    private void Start()
+    private void Awake()
     {
         PoblateQueue();
     }
