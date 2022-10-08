@@ -2,6 +2,7 @@ using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameOver:
                 GameOver?.Invoke();
+                SceneManager.LoadScene(0);
                 break;
         }
     }

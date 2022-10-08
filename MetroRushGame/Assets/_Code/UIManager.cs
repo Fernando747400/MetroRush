@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using System.Xml.Serialization;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _stationLabel;
     [SerializeField] private TextMeshProUGUI _stationText;
     [SerializeField] private TextMeshProUGUI _capacityText;
+    [SerializeField] private TextMeshProUGUI _currencyText;
     [SerializeField] private Slider _distanceSlider;
 
     private float _currentMaxDistance;
@@ -53,6 +55,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.Transit.AddListener(UpdateCurrentStation);
         GameManager.Instance.Arrived.AddListener(UpdateArrivingAtText);
         GameManager.Instance.OnStation.AddListener(UpdateCurrentStopText);
+        CurrencyManager.Instance.UpdatedCurrency += UpdateCurrency;
         this.ExpandCapacity.AddListener(UpdateCapacityText);
         UpdateMainUI();
         _metroWagon = MetroWagon.Instance.gameObject;
@@ -104,6 +107,11 @@ public class UIManager : MonoBehaviour
         _stationLabel.text = "Próxima estación:";
         _stationText.text = MapManager.Instance.StationList[MapManager.Instance.StationList.IndexOf(GameManager.Instance.CurrentStation.gameObject)+1].name;
         _distanceSlider.gameObject.SetActive(true);
+    }
+
+    private void UpdateCurrency()
+    {
+        _currencyText.text = CurrencyManager.Instance.RunCurrency.ToString();
     }
 
     private void UpdateSlider()

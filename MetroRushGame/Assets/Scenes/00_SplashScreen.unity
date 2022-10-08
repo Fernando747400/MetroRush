@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -888,6 +888,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2036142452}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &300658867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,6 +1331,7 @@ MonoBehaviour:
   _stationLabel: {fileID: 595128713}
   _stationText: {fileID: 1329033483}
   _capacityText: {fileID: 639492252}
+  _currencyText: {fileID: 984944485}
   _distanceSlider: {fileID: 573131658}
   ExpandCapacity:
     m_PersistentCalls:
@@ -1381,7 +1394,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1cf272809be19c14a916e68e4fccddde, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aaef5600c86fdd949b2300cd5b90ccce, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1921,6 +1934,8 @@ MonoBehaviour:
     type: 3}
   _stationPiece: {fileID: 3011002319392303451, guid: 592587a72142e8447bea2d2310c600af,
     type: 3}
+  _lastPiece: {fileID: 9054917949948750335, guid: f044f2526baa85d46a20968e4872fa24,
+    type: 3}
   _metroLine: {fileID: 11400000, guid: 811d87ebdf72357419c53168ffb082ef, type: 2}
   _peopleManager: {fileID: 1338308158}
   _mapOffset: 50
@@ -2395,7 +2410,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1000
+  m_text: '0
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2422,14 +2439,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.25
+  m_fontSize: 53.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

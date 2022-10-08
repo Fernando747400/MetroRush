@@ -70,6 +70,9 @@ public class MetroWagon : MonoBehaviour
             Debug.Log("Arrived at " + other.GetComponentInParent<MetroStation>().StationData.StationName);
             GameManager.Instance.CurrentStation = other.GetComponentInParent<MetroStation>();
             GameManager.Instance.ChangeState(GameManager.GameState.Arrival);
+        } else if (other.CompareTag("Finish"))
+        {
+            GameManager.Instance.ChangeState(GameManager.GameState.GameOver);
         }
     }
 

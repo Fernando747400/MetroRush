@@ -58,11 +58,12 @@ public class People : MonoBehaviour
     public void MoveInside()
     {
         iTween.MoveTo(this.gameObject, iTween.Hash("position", GameManager.Instance.MetroInside.transform.position, "time", 1f));
-        TimeRunning = true;
+        StartTimer();
     }
 
     public void ExitMetro(GameObject exitPosition)
     {
+        PauseTimer();
         iTween.MoveTo(this.gameObject, iTween.Hash("position", GameManager.Instance.MetroDoorsExit.transform.position, "time", 1f, "oncomplete", "MoveToDespawn", "oncompleteparams", exitPosition));
     }
 
@@ -98,6 +99,16 @@ public class People : MonoBehaviour
     private void TurnOffText()
     {
         StationText.gameObject.SetActive(false);
+    }
+
+    private void PauseTimer()
+    {
+        TimeRunning = false;
+    }
+
+    private void StartTimer()
+    {
+        TimeRunning = true;
     }
 
     private void CalculateCurrency()

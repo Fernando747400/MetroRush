@@ -10,6 +10,7 @@ public class MapManager : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private GameObject _tunelPiece;
     [SerializeField] private GameObject _stationPiece;
+    [SerializeField] private GameObject _lastPiece;
     [SerializeField] private MetroLineScriptable _metroLine;
     [SerializeField] private PeopleManager _peopleManager;
 
@@ -23,6 +24,8 @@ public class MapManager : MonoBehaviour
 
     public MetroLineScriptable MetroLine { get => _metroLine; }
     public List<GameObject> StationList { get => _stationObjectList; }
+
+    public event Action FinishedLoading;
 
     private void Awake()
     {
@@ -79,6 +82,9 @@ public class MapManager : MonoBehaviour
             _stationObjectList.Add(stationPiece);
         }
 
+        GameObject lastPiece = GameObject.Instantiate(_lastPiece);
+        _mapPiecesList.Add(lastPiece);
+        
         for (int i = 0; i < 10; i++)
         {
             tunnelPiece = GameObject.Instantiate(_tunelPiece);
@@ -122,5 +128,6 @@ public class MapManager : MonoBehaviour
         BuildTunnel();
         AddPeople();
         BuildMovingPieceList();
+        FinishedLoading?.Invoke();
     }
 }
