@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,9 +30,11 @@ public class StoreView : MonoBehaviour
     [SerializeField] private GameObject _acPosition;
     [SerializeField] private Canvas _acCanvas;
 
+    private MyDictionary _storeDictionary = new MyDictionary();
+
     public void ChangeCanvasAndCamera(string name)
     {
-
+        
     }
 
     private void ChangeTo(GameObject positionObject)
@@ -54,6 +57,11 @@ public class StoreView : MonoBehaviour
         _capacityCanvas.gameObject.SetActive(false);
         _acCanvas.gameObject.SetActive(false);
     }
+
+    private void CreateDictionary()
+    {
+        
+    }
 }
 
 public struct StoreValues
@@ -61,4 +69,15 @@ public struct StoreValues
     public GameObject PositionObject;
     public Canvas CanvasObject;
     public string Description;
+}
+
+public class MyDictionary : Dictionary<string, StoreValues>
+{
+    public void Add(string key, GameObject position, Canvas canvas)
+    {
+        StoreValues val = new StoreValues();
+        val.PositionObject = position;
+        val.CanvasObject = canvas;
+        this.Add(key, val);
+    }
 }
